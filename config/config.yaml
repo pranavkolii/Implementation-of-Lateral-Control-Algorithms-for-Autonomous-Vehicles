@@ -1,0 +1,152 @@
+# Vehicle configuration
+vehicle:
+  type: vehicle.lincoln.mkz_2017 # CARLA blueprint name
+  id: hero # Vehicle role name
+  # spawn_point: 31 # Index of spawn point in the map
+  spawn_point: 139
+
+# Planning and control parameters
+planning_config:
+  vehicle_wheelbase: 2.8 # Vehicle wheelbase in meters
+
+  path_resolution: 0.2 # Path discretization resolution in meters
+  route_points: [129, 28, 33, 40, 132, 146] # Route waypoints (indices), or select route randomly by selecting seed > 0
+  randomly_select_route_points_seed: 7
+
+  # longitudinal PID controller parameters
+  target_speed: 3.0 # Target speed in m/s
+  speed_Kp: 3.2 # Proportional gain for throttle
+  speed_Ki: 0.0
+  speed_Kd: 0.01
+
+  lateral_controller: PP # PP - Pure Pursuit (or) LQR - Linear Quadratic Regulator (or) MPC - Model Predictive Controller
+
+  # parameters for Pure Pursuit controller
+  PP_lookahead: 4 # Pure Pursuit lookahead distance (3, 4) (5, 6) (7, 8) (10, 11)
+
+  # parameters for LQR controller, Q penalizes error, R penalizes effort.
+  Q_cost_lateral: 2.0 # Q cost for lateral error
+  Q_cost_heading: 0.5 # Q cost for heading error
+  R_cost: 3.0 # Control cost
+
+  # parameters for MPC controller
+  mpc_horizon: 10 # Lookahead steps (e.g., 10 steps * 0.05dt = 0.5s)
+  mpc_Q_lateral: 3.0 # Cost for being away from the center line
+  mpc_Q_heading: 1.0 # Cost for not pointing along the path
+  mpc_R_steer: 0.5 # Cost for using steering (higher = smoother but sluggish)
+
+# General configuration
+config:
+  simulation_timestep_sec: 0.05 # Time difference between two succesive simulation steps
+  simulation_length: 6000 # '<= 0' for infinite time steps, 1 min = 1200 x 0.05 sec timesteps
+
+  visualization_timeout_sec: 3600 # Debug visualization lifetime
+  path_arrow_freq: 25 # How often to draw arrows along path
+  path_arrow_len: 1.0 # Arrow length
+  path_arrow_dia: 0.1 # Arrow thickness
+
+# Sensors configuration
+sensors:
+  - type: sensor.camera.rgb
+    id: rgb_spectator
+    spawn_point:
+      x: -4.5
+      y: 0.0
+      z: 2.5
+      roll: 0.0
+      pitch: 20.0
+      yaw: 0.0
+    attributes:
+      image_size_x: 1280
+      image_size_y: 720
+      fov: 90.0
+      sensor_tick: 0.05
+
+  - type: sensor.camera.rgb
+    id: rgb
+    spawn_point:
+      x: 0.0
+      y: 0.0
+      z: 2.4
+      roll: 0.0
+      pitch: 20.0
+      yaw: 0.0
+    attributes:
+      image_size_x: 600
+      image_size_y: 400
+      fov: 90.0
+      sensor_tick: 0.05
+
+  - type: sensor.lidar.ray_cast
+    id: lidar
+    spawn_point:
+      x: 0.0
+      y: 0.0
+      z: 2.4
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    attributes:
+      range: 90
+      channels: 32
+      points_per_second: 655360
+      rotation_frequency: 20
+      upper_fov: 22.5
+      lower_fov: -22.5
+      atmosphere_attenuation_rate: 0.004
+      dropoff_general_rate: 0.45
+      dropoff_intensity_limit: 0.8
+      dropoff_zero_intensity: 0.4
+
+  - type: sensor.other.gnss
+    id: gnss
+    spawn_point:
+      x: 1.0
+      y: 0.0
+      z: 2.0
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    attributes:
+      noise_alt_stddev: 0.0
+      noise_lat_stddev: 0.0
+      noise_lon_stddev: 0.0
+      noise_alt_bias: 0.0
+      noise_lat_bias: 0.0
+      noise_lon_bias: 0.0
+
+  - type: sensor.other.imu
+    id: imu
+    spawn_point:
+      x: 2.0
+      y: 0.0
+      z: 2.0
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    attributes:
+      noise_accel_stddev_x: 0.0
+      noise_accel_stddev_y: 0.0
+      noise_accel_stddev_z: 0.0
+      noise_gyro_stddev_x: 0.0
+      noise_gyro_stddev_y: 0.0
+      noise_gyro_stddev_z: 0.0
+      noise_gyro_bias_x: 0.0
+      noise_gyro_bias_y: 0.0
+      noise_gyro_bias_z: 0.0
+
+  - type: sensor.other.radar
+    id: radar
+    spawn_point:
+      x: 2.0
+      y: 0.0
+      z: 2.0
+      roll: 0.0
+      pitch: 0.0
+      yaw: 0.0
+    attributes:
+      horizontal_fov: 30.0
+      vertical_fov: 30.0
+      range: 100
+      sensor_tick: 0.05
+      points_per_second: 1500
