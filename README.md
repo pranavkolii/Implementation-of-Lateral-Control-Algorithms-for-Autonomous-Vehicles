@@ -1,4 +1,4 @@
-# Compare-PP-LQR-MPC
+# Implementation of Lateral Control Algorithms for Autonomous Vehicles
 
 A comprehensive lateral control comparison suite for autonomous vehicle path following in CARLA simulator. This project implements and compares three control algorithms:
 
@@ -192,3 +192,7 @@ Compare-PP-LQR-MPC/
 - `longitudinal_control()` - PID controller for speed regulation
 - `get_error_states()` - Computes lateral and heading errors
 - `main_loop()` - Main simulation loop
+
+## Outcomes
+* Evaluated and implemented three lateral control algorithms—Model Predictive Control (MPC), Pure Pursuit (PP), and Linear Quadratic Regulator (LQR)—using the CARLA simulator and Python.
+* Optimized tracking precision and real-time efficiency by developing a latency-compensated LQR controller and a linearized MPC strategy.
